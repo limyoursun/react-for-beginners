@@ -7,15 +7,15 @@ function App() {
   const [keyword, setKeyword] = useState("")
   const onClick = () => setCounter(prev => prev + 1)
   const onChange = (event) => setKeyword(event.target.value);
-  console.log('i run all the time');
   useEffect(() => {
     console.log('i run only once!')
   }, []) // 모든 상황에서 함수 실행함
   useEffect(() => {
-    if(keyword !== '' && keyword.length > 6){
-      console.log('search for', keyword);
-    }
+      console.log("i run when 'keyword' changes.");
   }, [keyword]) // 해당 변수가 변화될 때만 함수를 실행함
+  useEffect(() => {
+    console.log("i run when 'counter' changes.");
+}, [counter])
   return (
     <div>
       <input
