@@ -13,10 +13,14 @@ function App() {
     }
     setToDo("");
     setToDos(currentArray => [toDo, ...currentArray])
+    // const food = [1, 2, 3, 4]
+    // [6, ...food]
+    // food = [6, 1, 2, 3, 4]
   }
   console.log(toDos);
   return(
     <div>
+      <h1>My To Dos ({toDos.length})</h1>
       <form onSubmit={onSubmit}>
         <input onChange={onChange} value={toDo} placeholder="write your to do" type="text"/>
         <button>Add To Do</button>
