@@ -3,33 +3,26 @@ import styles from "./App.module.css";
 import { useState , useEffect} from "react";
 
 function App() {
-  const [value, setValue] = useState(false)
-  const onClick = () => setValue(prev => !prev)
-  // function Hello(){
-  //   useEffect(() => {
-  //     console.log("created! :)");
-  //     return() => {console.log("destroyed :(")} // cleanUp function
-  //   })
-  //   return <h1>안녕하시와요</h1>;
-  // }
-  
-  function Hello(){
-    function byeFn(){
-      console.log("destroyed :(") // cleanUp function
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if(toDo === ""){
+      return ;
     }
-    function hiFn(){
-      console.log("created! :)");
-      return byeFn;
-    }
-    useEffect(hiFn, [])
-    return <h1>안녕하시와요</h1>;
+    setToDo("");
+    setToDos(currentArray => [toDo, ...currentArray])
   }
-return(
-  <div>
-    {value ? <Hello/> : null }
-    <button onClick={onClick}>{value ? "show" : "hide"}</button>
-  </div>
-)
+  console.log(toDos);
+  return(
+    <div>
+      <form onSubmit={onSubmit}>
+        <input onChange={onChange} value={toDo} placeholder="write your to do" type="text"/>
+        <button>Add To Do</button>
+      </form>
+    </div>
+  )
 }
 
 export default App;
