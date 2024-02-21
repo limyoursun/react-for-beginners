@@ -3,39 +3,26 @@ import styles from "./App.module.css";
 import { useState , useEffect} from "react";
 
 function App() {
-  const [toDo, setToDo] = useState("");
-  const [toDos, setToDos] = useState([]);
-  const onChange = (event) => setToDo(event.target.value);
-  const onSubmit = (event) => {
-    event.preventDefault();
-    if(toDo === ""){
-      return ;
-    }
-    setToDo("");
-    setToDos(currentArray => [toDo, ...currentArray])
-  }
-  console.log(toDos);
-  return(
-    <div>
-      <h1>My To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmit}>
-        <input onChange={onChange} value={toDo} placeholder="write your to do" type="text"/>
-        <button>Add To Do</button>
-      </form>
-      <hr/>
-      <ul>
-          {toDos.map((item, index) => 
-          <li key={index}>{item}</li>
-        )}
-        {/* key error가 나기 때문에 고유의 값인 index와 key={index}를 추가함 */}
-      </ul>
-      {/* map 함수가 하는 일은 아래와 같다
-      ['hi', 'hello', 'bye'].map(() => ":)")
-      => [':)', ':)', ':)']
-
-      ['hi', 'hello', 'bye'].map((item) => item.toUpperCase)
-      => ['HI', 'HELLO', 'BYE'] */}
-    </div>
+  const [loading, setLoading] = useState(true)
+  const [coins, setCoins] = useState() // 비어있는 array로 두어 초기에 undefined 되지 않게 해야함
+  useEffect(() => {
+    fetch("https://api.coinpaprika.com/v1/tickers").then((response) => response.json()
+    ).then((json) => {
+      setCoins(json) // api 가져오기
+      setLoading(false) // loading message를 없애기
+    })
+  }, [])
+  return (
+  <div>
+    <h1>the coins ({(coins.length)})</h1>
+    {loading ? <strong>loading...</strong> : null}
+    <ul>
+      {coins && coins.map((coin) => <li key={coin.id}>{coin.name} ({coin.symbol}) : {coin.quotes.USD.price} USD</li>)}
+      {/* coins.map을 coins && coins.map로 바꾼 이유!
+      : true && expression은 항상 expression으로 실행되고, false && expression은 항상 false로 실행된다.
+        따라서 조건이 참이면 && 바로 뒤의 요소가 출력에 나타난다. */}
+    </ul>
+  </div>
   )
 }
 
