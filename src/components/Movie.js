@@ -1,8 +1,14 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 function Movie({ title, coverImg, summary, genres }) {
   return (
     <div key="movie.id">
-      <h2>{title}</h2>
+      <h2>
+        <Link to="/movie">{title}</Link>
+        {/* <a href="/movie">{title}</a> 
+        로 하지 않는 이유 : 로드가 되기 때문! */}
+      </h2>
       <img src={coverImg} alt={title} />
       <p>{summary}</p>
       <ul>
