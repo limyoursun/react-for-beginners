@@ -1,33 +1,66 @@
-import Button from "./Button"
-import styles from "./App.module.css";
-import { useState , useEffect} from "react";
+import { useEffect, useState } from "react";
+import Movie from "./Movie";
 
 function App() {
-  const [loading, setLoading] = useState(true)
-  const [coins, setCoins] = useState([]) // 비어있는 array로 두어 초기에 undefined 되지 않게 해야함
+  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState([]);
+  // 방법 1
+  const getMovies = async () => {
+    const json = await (
+      await fetch(
+        `https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`
+      )
+    ).json();
+    setMovies(json.data.movies);
+    setLoading(false); // loading이 끝났기 때문에 false로 만들어줘야 함
+  };
   useEffect(() => {
-    fetch("https://api.coinpaprika.com/v1/tickers")
-    .then((response) => response.json())
-    .then((json) => {
-      setCoins(json) // api 가져오기
-      setLoading(false) // loading message를 없애기
-    })
-  }, [])
-  return (
-  <div>
-    <h1>the coins {loading ? "" : `(${(coins.length)})`}</h1>
-    {loading ? (
-      <strong>loading...</strong> 
-    ) : (
-      <select>
-        {coins.map((coin) => <option key={coin.id}>{coin.name} ({coin.symbol}) : {coin.quotes.USD.price} USD</option>)}
-        {/* coins.map을 coins && coins.map로 바꾼 이유!
-        : true && expression은 항상 expression으로 실행되고, false && expression은 항상 false로 실행된다.
-          따라서 조건이 참이면 && 바로 뒤의 요소가 출력에 나타난다. */}
-      </select>
-    )}
-  </div>
-  )
-}
+    getMovies();
+  }, []); // [] <= 어떤 것도 주시하지 않음, 한 번만 작동함
+  console.log(movies);
 
+  // 방법 2
+  // const getMovies = async() => { // then을 쓰지 않고 쓰는 방법
+  //   const response = await fetch(
+  //     `https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`
+  //     )
+  //   const json = await response.json()
+  //   setMovies(json.data.movies)
+  //   setLoading(false)
+  // }
+  // useEffect(() => {
+  //   getMovies()
+  // }, []) // []
+
+  // 방법 3
+  // useEffect(() => {
+  //   fetch(
+  //     `https://yts.mx/api/v2/list_movies.json?minimum_rating=9&sort_by=year`
+  //     )
+  //       .then(response => response.json())
+  //       .then(json => {
+  //         setMovies(json.data.movies)
+  //         setLoading(false) // loading이 끝났기 때문에 false로 만들어줘야 함
+  //       })
+  // }, []) // [] <= 어떤 것도 주시하지 않음, 한 번만 작동함
+  return (
+    <div>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          {movies.map((movie) => (
+            <Movie
+              key={movie.id}
+              title={movie.title}
+              coverImg={movie.medium_cover_image}
+              summary={movie.summary}
+              genres={movie.genres}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 export default App;
