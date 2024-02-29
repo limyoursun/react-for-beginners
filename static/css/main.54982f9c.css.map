@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.54982f9c.css","mappings":"AAEA,mBAAK,wBAAwB,CAAC,SAAU","sources":["Button.module.css"],"sourcesContent":["@charset \"UTF-8\";\r\n\r\n.btn{background-color:skyblue;color:red;}"],"names":[],"sourceRoot":""}
