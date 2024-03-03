@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./Button.module.css";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   //<React.StrictMode>
-    <App/>
+  <App />
   //</React.StrictMode>
   /*
   React.StrictMode 테그에 감싸져 있어서 그렇다고 합니다.

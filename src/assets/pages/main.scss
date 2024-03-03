@@ -1,0 +1,38 @@
+.movie_wrap{display:flex;flex-wrap:wrap;
+    &>.movie{flex:0 1 50%;}
+    h2{
+        a{font-size:20px;text-decoration:none;}
+    }
+}
+
+
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 1rem;
+    color: #ffd700; /* 별의 색상을 노란색으로 지정 */
+  }
+  
+  .star-rating .back-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    width: 100%;
+    color: #ccc; /* 비활성화된 별의 색상을 회색으로 지정 */
+  }
+  
+  .star-rating .front-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    color: #ffd700; /* 활성화된 별의 색상을 노란색으로 지정 */
+  }
+  
+  /* 별 아이콘에 마우스를 올렸을 때의 색상 변화 */
+  .star-rating:hover .front-stars {
+    color: #f9d423; /* 마우스를 올렸을 때 활성화된 별의 색상을 바꿉니다. */
+  }
